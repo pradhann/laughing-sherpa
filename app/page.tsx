@@ -32,41 +32,26 @@ const Landing = () => {
 
 const Story = () => {
   const [showNextButton, setShowNextButton] = useState(false);
-  const scrollRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       const productsElement = document.getElementById('Products');
       if (productsElement) {
         const productsPosition = productsElement.getBoundingClientRect().top;
-        const showButton = productsPosition > window.innerHeight / 2;
-        setShowNextButton(showButton);
+        const windowHeight = window.innerHeight;
+        setShowNextButton(productsPosition > windowHeight / 2);
       }
-    };
-
-    const handleScrollClick = () => {
-      scrollToElement('Products');
-      setShowNextButton(false);
     };
 
     window.addEventListener('scroll', handleScroll);
-
-    if (scrollRef.current) {
-      scrollRef.current.addEventListener('click', handleScrollClick);
-    }
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (scrollRef.current) {
-        scrollRef.current.removeEventListener('click', handleScrollClick);
-      }
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToElement = (elementId: string) => {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+  const handleScrollClick = () => {
+    const productsElement = document.getElementById('Products');
+    if (productsElement) {
+      productsElement.scrollIntoView({ behavior: 'smooth' });
+      setShowNextButton(false);
     }
   };
 
@@ -89,8 +74,8 @@ const Story = () => {
       {showNextButton && (
         <div className="absolute bottom-8 z-10 flex justify-center">
           <button
-            ref={scrollRef}
-            className="bg-white rounded-full p-2 flex items-center justify-center"
+            className="p-2 flex items-center justify-center"
+            onClick={handleScrollClick}
           >
             <NavigateNextIcon fontSize="large" />
           </button>
@@ -99,6 +84,8 @@ const Story = () => {
     </section>
   );
 };
+
+
 
 interface ProductCardProps {
   title: string;
@@ -168,28 +155,34 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => {
       const storyElement = document.getElementById('Story');
-      if (storyElement) {
+      const productsElement = document.getElementById('Products');
+
+      if (storyElement && productsElement) {
         const storyPosition = storyElement.getBoundingClientRect().top;
-        const showButton = storyPosition > window.innerHeight / 2;
-        setShowButton(showButton);
+        const productsPosition = productsElement.getBoundingClientRect().top;
+
+        const showButtonForStory = storyPosition > window.innerHeight / 2;
+        const showButtonForProducts = productsPosition > window.innerHeight / 2;
+
+        setShowButton(showButtonForStory || showButtonForProducts);
       }
     };
 
-    const handleScrollClick = () => {
-      scrollToElement('Story');
+    const handleScrollClick = (elementId: string) => {
+      scrollToElement(elementId);
       setShowButton(false);
     };
 
     window.addEventListener('scroll', handleScroll);
 
     if (scrollRef.current) {
-      scrollRef.current.addEventListener('click', handleScrollClick);
+      scrollRef.current.addEventListener('click', () => handleScrollClick('Story'));
     }
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       if (scrollRef.current) {
-        scrollRef.current.removeEventListener('click', handleScrollClick);
+        scrollRef.current.removeEventListener('click', () => handleScrollClick('Story'));
       }
     };
   }, []);
