@@ -5,7 +5,40 @@ import Image from 'next/image';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
+
+
 const Landing = () => {
+  const [showNextButton, setShowNextButton] = useState(true);
+
+  useEffect(() => {
+    const checkScroll = () => {
+      const storyElement = document.getElementById('Story');
+      if (storyElement) {
+        const storyPosition = storyElement.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        setShowNextButton(storyPosition > windowHeight / 2);
+      }
+    };
+
+    // Ensure listener is added after the component mounts
+    window.addEventListener('scroll', checkScroll);
+
+    // Check immediately in case the page isn't scrolled after load
+    checkScroll();
+
+    return () => {
+      window.removeEventListener('scroll', checkScroll);
+    };
+  }, []);
+
+  const handleScrollClick = () => {
+    const storyElement = document.getElementById('Story');
+    if (storyElement) {
+      storyElement.scrollIntoView({ behavior: 'smooth' });
+      setShowNextButton(false);
+    }
+  };
+
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen">
       <Image
@@ -26,16 +59,29 @@ const Landing = () => {
           Your Fuel In Moving Mountains
         </p>
       </div>
+      {showNextButton && (
+        <div className="absolute inset-x-0 bottom-8 z-10 flex justify-center">
+          <button
+            className="p-2 flex items-center justify-center"
+            onClick={handleScrollClick}
+          >
+            <ExpandMoreIcon fontSize="large" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
+
+
+
 
 const Story = () => {
   const [showNextButton, setShowNextButton] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const productsElement = document.getElementById('Products');
+      const productsElement = document.getElementById('Process');
       if (productsElement) {
         const productsPosition = productsElement.getBoundingClientRect().top;
         const windowHeight = window.innerHeight;
@@ -48,7 +94,7 @@ const Story = () => {
   }, []);
 
   const handleScrollClick = () => {
-    const productsElement = document.getElementById('Products');
+    const productsElement = document.getElementById('Process');
     if (productsElement) {
       productsElement.scrollIntoView({ behavior: 'smooth' });
       setShowNextButton(false);
@@ -77,7 +123,64 @@ const Story = () => {
             className="p-2 flex items-center justify-center"
             onClick={handleScrollClick}
           >
-            <NavigateNextIcon fontSize="large" />
+            <ExpandMoreIcon fontSize="large" />
+          </button>
+        </div>
+      )}
+    </section>
+  );
+};
+
+const Process = () => {
+  const [showNextButton, setShowNextButton] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const productsElement = document.getElementById('Products');
+      if (productsElement) {
+        const productsPosition = productsElement.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        setShowNextButton(productsPosition > windowHeight / 2);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleScrollClick = () => {
+    const productsElement = document.getElementById('Products');
+    if (productsElement) {
+      productsElement.scrollIntoView({ behavior: 'smooth' });
+      setShowNextButton(false);
+    }
+  };
+
+  return (
+    <section className="flex flex-col items-center justify-center min-h-screen px-4 md:px-20 bg-gradient-to-b from-[#fde2e4] to-[#e2e2f1] relative">
+
+
+      <h1 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
+        Our Process
+      </h1>
+      <div className="max-w-4xl text-center text-lg md:text-xl text-gray-700 space-y-6">
+        <p className="font-semibold text-gray-800">
+          <span className="text-sky-600">The Laughing Sherpa</span> is a tribute to our deep affection for the Himalayas and our profound admiration for the pillars of Nepal's mountaineering community – the Sherpas.
+        </p>
+        <p>
+          In the face of challenging conditions, the Sherpas tirelessly safeguard the spirits of the Himalayas and help countless individuals realize their dreams of achieving the impossible.
+        </p>
+        <p>
+          Discover the authentic taste of Nepal with our adventure meal packs, thoughtfully made for both taste and nutrition, reminiscent of the comfort of home.
+        </p>
+      </div>
+      {showNextButton && (
+        <div className="absolute bottom-8 z-10 flex justify-center">
+          <button
+            className="p-2 flex items-center justify-center"
+            onClick={handleScrollClick}
+          >
+            <ExpandMoreIcon fontSize="large" />
           </button>
         </div>
       )}
@@ -150,68 +253,42 @@ const Products = () => (
 
 export default function Home() {
   const [showButton, setShowButton] = useState(true);
-  const scrollRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       const storyElement = document.getElementById('Story');
+      const processElement = document.getElementById('Process');
       const productsElement = document.getElementById('Products');
+
 
       if (storyElement && productsElement) {
         const storyPosition = storyElement.getBoundingClientRect().top;
         const productsPosition = productsElement.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
 
-        const showButtonForStory = storyPosition > window.innerHeight / 2;
-        const showButtonForProducts = productsPosition > window.innerHeight / 2;
+        const showButtonForStory = storyPosition > windowHeight / 2;
+        const showButtonForProducts = productsPosition > windowHeight / 2;
 
         setShowButton(showButtonForStory || showButtonForProducts);
       }
     };
 
-    const handleScrollClick = (elementId: string) => {
-      scrollToElement(elementId);
-      setShowButton(false);
-    };
-
     window.addEventListener('scroll', handleScroll);
-
-    if (scrollRef.current) {
-      scrollRef.current.addEventListener('click', () => handleScrollClick('Story'));
-    }
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      if (scrollRef.current) {
-        scrollRef.current.removeEventListener('click', () => handleScrollClick('Story'));
-      }
     };
   }, []);
-
-  const scrollToElement = (elementId: string) => {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <div>
       <div id="Landing">
         <Landing />
-        {showButton && (
-          <div className="absolute inset-x-0 bottom-8 z-10 flex justify-center">
-            <button
-              ref={scrollRef}
-              className="p-2 flex items-center justify-center"
-              onClick={() => setShowButton(false)}
-            >
-              <ExpandMoreIcon fontSize="large" />
-            </button>
-          </div>
-        )}
       </div>
       <div id="Story">
         <Story />
+      </div>
+      <div id="Process">
+        <Process />
       </div>
       <div id="Products">
         <Products />
