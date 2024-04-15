@@ -149,8 +149,8 @@ const NutritionCard: React.FC<NutritionCardProps> = ({ icon: Icon, title, descri
 
 
         {/* Make title bold */}
-        <div className="text-xl font-bold">{title}</div>
-        <div className="text-base">{description}</div>
+        <div className="text-xl text-black font-bold">{title}</div>
+        <div className="text-base text-gray-400">{description}</div>
       </div>
     </div>
   );
@@ -182,14 +182,13 @@ const Nutrition = () => {
   };
 
   return (
-    <Card className="flex flex-col items-center justify-center min-h-screen px-4 md:px-20 relative" style={{ background: 'linear-gradient(to bottom, #ffffff, #f7f7f7)' }}
+    <div className="flex flex-col items-center px-4 md:px-20 w-full min-h-screen" style={{ background: 'linear-gradient(to bottom, #ffffff, #f7f7f7)' }}>
 
+      <Typography variant="h3" component="h1" gutterBottom className="text-2xl md:text-3xl font-semibold text-center text-gray-600 mb-6 mt-12">
 
-    >
-      <h2 className="mt-8 text-2xl md:text-3xl font-semibold text-center text-gray-600 mb-6">
-        &quot;Dehydrated to Perfection&quot;
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        "Dehydrated to Perfection"
+      </Typography>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-4">
         <NutritionCard
           icon={ExploreIcon}
           title="Lightweight"
@@ -211,19 +210,17 @@ const Nutrition = () => {
           description="Boosts your energy levels for an active day"
         />
       </div>
-      {showNextButton && (
-        <div className="absolute bottom-8 z-10">
-          <button
-            className=" text-gray-800 font-medium py-2 px-4 rounded focus:outline-none focus:bg-gray-400"
-            onClick={handleScrollClick}
-          >
-            <ExpandMoreIcon className="mr-2" />
-          </button>
-
-        </div>
-      )}
-    </Card>
+      <div className="flex justify-center w-full">
+        <button
+          className="text-gray-800 font-medium py-2 px-4 rounded focus:outline-none"
+          onClick={handleScrollClick}
+        >
+          <ExpandMoreIcon className="mr-2" />
+        </button>
+      </div>
+    </div>
   );
+
 };
 
 
