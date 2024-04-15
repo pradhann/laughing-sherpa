@@ -186,7 +186,7 @@ const Nutrition = () => {
 
       <Typography variant="h3" component="h1" gutterBottom className="text-2xl md:text-3xl font-semibold text-center text-gray-600 mb-6 mt-12">
 
-        "Dehydrated to Perfection"
+        &quot;Dehydrated to Perfection&quot;
       </Typography>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-4">
         <NutritionCard
