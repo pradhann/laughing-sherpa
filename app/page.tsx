@@ -185,7 +185,7 @@ const Nutrition = () => {
 
     >
       <h2 className="text-2xl md:text-3xl font-semibold text-center text-gray-600 mb-6">
-        "Dehydrated to Perfection"
+        &quot;Dehydrated to Perfection&quot;
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <NutritionCard
