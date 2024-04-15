@@ -142,9 +142,11 @@ interface NutritionCardProps {
 const NutritionCard: React.FC<NutritionCardProps> = ({ icon: Icon, title, description }) => {
   return (
     // Add border, shadow, and transition effects
-    <div className="p-8 border-2 border-black-200 rounded-lg hover:border-gray-400 hover:shadow-md transition-all duration-300">
+    <div className="p-4 md:p-8 border-2 border-black rounded-lg hover:border-gray-400 hover:shadow-md transition-all duration-300">
+
       <div className="p-6 flex flex-col items-center gap-4">
-        <Icon className="text-6xl text-black hover:text-gray-700 transition-colors duration-300" />
+        <Icon className="text-4xl md:text-6xl text-black hover:text-gray-700 transition-colors duration-300" />
+
 
         {/* Make title bold */}
         <div className="text-xl font-bold">{title}</div>
@@ -184,7 +186,7 @@ const Nutrition = () => {
 
 
     >
-      <h2 className="text-2xl md:text-3xl font-semibold text-center text-gray-600 mb-6">
+      <h2 className="mt-8 text-2xl md:text-3xl font-semibold text-center text-gray-600 mb-6">
         &quot;Dehydrated to Perfection&quot;
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
