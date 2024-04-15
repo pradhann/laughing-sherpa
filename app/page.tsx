@@ -131,6 +131,8 @@ const Story = () => {
   );
 };
 
+import { Button, Card, CardContent, Typography } from '@mui/material';
+
 const Process = () => {
   const [showNextButton, setShowNextButton] = useState(false);
 
@@ -157,36 +159,27 @@ const Process = () => {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center min-h-screen px-4 md:px-20 bg-gradient-to-b from-[#fde2e4] to-[#e2e2f1] relative">
+    <Card className="flex flex-col items-center justify-center min-h-screen px-4 md:px-20 relative" style={{ background: 'linear-gradient(to bottom, #fde2e4, #e2e2f1)' }}>
+      <CardContent className="text-center max-w-4xl">
+        <Typography variant="h3" component="h1" gutterBottom className="font-bold text-gray-800">
+          Our Process
+        </Typography>
+        <Typography variant="h5" className="text-gray-700 space-y-6">
+          We source our produce directly from rural smallholder farmers of Nepal.
+        </Typography>
 
-
-      <h1 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
-        Our Process
-      </h1>
-      <div className="max-w-4xl text-center text-lg md:text-xl text-gray-700 space-y-6">
-        <p className="font-semibold text-gray-800">
-          <span className="text-sky-600">The Laughing Sherpa</span> is a tribute to our deep affection for the Himalayas and our profound admiration for the pillars of Nepal's mountaineering community – the Sherpas.
-        </p>
-        <p>
-          In the face of challenging conditions, the Sherpas tirelessly safeguard the spirits of the Himalayas and help countless individuals realize their dreams of achieving the impossible.
-        </p>
-        <p>
-          Discover the authentic taste of Nepal with our adventure meal packs, thoughtfully made for both taste and nutrition, reminiscent of the comfort of home.
-        </p>
-      </div>
+      </CardContent>
       {showNextButton && (
-        <div className="absolute bottom-8 z-10 flex justify-center">
-          <button
-            className="p-2 flex items-center justify-center"
-            onClick={handleScrollClick}
-          >
-            <ExpandMoreIcon fontSize="large" />
-          </button>
+        <div className="absolute bottom-8 z-10">
+          <Button variant="contained" color="primary" onClick={handleScrollClick} endIcon={<ExpandMoreIcon />}>
+            See Products
+          </Button>
         </div>
       )}
-    </section>
+    </Card>
   );
 };
+
 
 
 
@@ -194,14 +187,15 @@ interface ProductCardProps {
   title: string;
   description: string;
   price: number;
+  image_path: string;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ title, description, price }) => (
+const ProductCard: React.FC<ProductCardProps> = ({ title, description, price, image_path }) => (
   <div className="flex flex-col gap-2">
     <Image
       alt="Product image"
       className="mx-auto aspect-square overflow-hidden rounded-lg object-cover object-center border border-gray-200 dark:border-gray-800"
-      src="/placeholder.svg"
+      src={image_path}
       width={400}
       height={400}
     />
@@ -227,24 +221,28 @@ const Products = () => (
 
       <div className="mx-auto grid max-w-5xl grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 border-t pt-6 border-gray-200 dark:border-gray-800">
         <ProductCard
-          title="Product One"
+          title="Lentil Soup"
           description="Description of product one."
           price={19.99}
+          image_path="/lentil_soup.jpg"
         />
         <ProductCard
-          title="Product Two"
+          title="Beans & Gravy"
           description="Description of product two."
           price={24.99}
+          image_path="/beans_gravy.jpg"
         />
         <ProductCard
-          title="Product Three"
+          title="Mushroom Choila"
           description="Description of product three."
           price={29.99}
+          image_path="/mushroom_choila.jpg"
         />
         <ProductCard
-          title="Product Four"
+          title="Dal Mahkani"
           description="Description of product four."
           price={34.99}
+          image_path="/mushroom_choila.jpg"
         />
       </div>
     </div>
