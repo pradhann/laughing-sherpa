@@ -5,6 +5,11 @@ import Image from 'next/image';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { Button, Card, CardContent, Typography } from '@mui/material';
+import ExploreIcon from '@mui/icons-material/Explore';
+import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import BoltIcon from '@mui/icons-material/Bolt';
+import GroupIcon from '@mui/icons-material/Group';
 
 
 const Landing = () => {
@@ -78,7 +83,7 @@ const Story = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const productsElement = document.getElementById('Process');
+      const productsElement = document.getElementById('Nutrition');
       if (productsElement) {
         const productsPosition = productsElement.getBoundingClientRect().top;
         const windowHeight = window.innerHeight;
@@ -91,7 +96,7 @@ const Story = () => {
   }, []);
 
   const handleScrollClick = () => {
-    const productsElement = document.getElementById('Process');
+    const productsElement = document.getElementById('Nutrition');
     if (productsElement) {
       productsElement.scrollIntoView({ behavior: 'smooth' });
       setShowNextButton(false);
@@ -101,7 +106,7 @@ const Story = () => {
   return (
     <section className="flex flex-col items-center justify-center min-h-screen px-4 md:px-20 bg-gradient-to-b from-[#f0e5d8] to-[#c0e0e8] relative">
       <h1 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
-        Our Story
+        Who We Are
       </h1>
       <div className="max-w-4xl text-center text-lg md:text-xl text-gray-700 space-y-6">
         <p className="font-semibold text-gray-800">
@@ -125,6 +130,97 @@ const Story = () => {
         </div>
       )}
     </section>
+  );
+};
+
+interface NutritionCardProps {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+}
+
+const NutritionCard: React.FC<NutritionCardProps> = ({ icon: Icon, title, description }) => {
+  return (
+    // Add border, shadow, and transition effects
+    <div className="p-8 border-2 border-black-200 rounded-lg hover:border-gray-400 hover:shadow-md transition-all duration-300">
+      <div className="p-6 flex flex-col items-center gap-4">
+        <Icon className="text-6xl text-black hover:text-gray-700 transition-colors duration-300" />
+
+        {/* Make title bold */}
+        <div className="text-xl font-bold">{title}</div>
+        <div className="text-base">{description}</div>
+      </div>
+    </div>
+  );
+};
+
+const Nutrition = () => {
+  const [showNextButton, setShowNextButton] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const productsElement = document.getElementById('Process');
+      if (productsElement) {
+        const productsPosition = productsElement.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        setShowNextButton(productsPosition > windowHeight / 2);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleScrollClick = () => {
+    const productsElement = document.getElementById('Process');
+    if (productsElement) {
+      productsElement.scrollIntoView({ behavior: 'smooth' });
+      setShowNextButton(false);
+    }
+  };
+
+  return (
+    <Card className="flex flex-col items-center justify-center min-h-screen px-4 md:px-20 relative" style={{ background: 'linear-gradient(to bottom, #ffffff, #f7f7f7)' }}
+
+
+    >
+      <h2 className="text-2xl md:text-3xl font-semibold text-center text-gray-600 mb-6">
+        "Dehydrated to Perfection"
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <NutritionCard
+          icon={ExploreIcon}
+          title="Lightweight"
+          description="Easy to carry, perfect for your outdoor excursions"
+        />
+        <NutritionCard
+          icon={RestaurantMenuIcon}
+          title="Nutritious"
+          description="Packed with energy, ideal for adventurers on the go"
+        />
+        <NutritionCard
+          icon={AccessTimeIcon}
+          title="Convenient"
+          description="Quick to prepare, saves time during your journey"
+        />
+        <NutritionCard
+          icon={BoltIcon}
+          title="Energetic"
+          description="Boosts your energy levels for an active day"
+        />
+      </div>
+      {showNextButton && (
+        <div className="absolute bottom-8 z-10">
+          <button
+            className=" text-gray-800 font-medium py-2 px-4 rounded focus:outline-none focus:bg-gray-400"
+            onClick={handleScrollClick}
+          >
+            <ExpandMoreIcon className="mr-2" />
+          </button>
+
+        </div>
+      )}
+    </Card>
   );
 };
 
@@ -158,7 +254,7 @@ const Process = () => {
     <Card className="flex flex-col items-center justify-center min-h-screen px-4 md:px-20 relative" style={{ background: 'linear-gradient(to bottom, #fde2e4, #e2e2f1)' }}>
       <CardContent className="text-center max-w-4xl">
         <Typography variant="h3" component="h1" gutterBottom className="font-bold text-gray-800">
-          Our Process
+          How we work
         </Typography>
         <Typography variant="h5" className="text-gray-700 space-y-6">
           We source our produce directly from rural smallholder farmers of Nepal.
@@ -389,6 +485,9 @@ export default function Home() {
       </div>
       <div id="Story">
         <Story />
+        <div id="Nutrition">
+          <Nutrition />
+        </div>
       </div>
       <div id="Process">
         <Process />
