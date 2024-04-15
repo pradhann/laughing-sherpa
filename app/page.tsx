@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-
+import { Button, Card, CardContent, Typography } from '@mui/material';
 
 
 const Landing = () => {
@@ -73,9 +73,6 @@ const Landing = () => {
   );
 }
 
-
-
-
 const Story = () => {
   const [showNextButton, setShowNextButton] = useState(false);
 
@@ -131,9 +128,75 @@ const Story = () => {
   );
 };
 
-import { Button, Card, CardContent, Typography } from '@mui/material';
 
 const Process = () => {
+  const [showNextButton, setShowNextButton] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const productsElement = document.getElementById('Partners');
+      if (productsElement) {
+        const productsPosition = productsElement.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        setShowNextButton(productsPosition > windowHeight / 2);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleScrollClick = () => {
+    const productsElement = document.getElementById('Partners');
+    if (productsElement) {
+      productsElement.scrollIntoView({ behavior: 'smooth' });
+      setShowNextButton(false);
+    }
+  };
+
+  return (
+    <Card className="flex flex-col items-center justify-center min-h-screen px-4 md:px-20 relative" style={{ background: 'linear-gradient(to bottom, #fde2e4, #e2e2f1)' }}>
+      <CardContent className="text-center max-w-4xl">
+        <Typography variant="h3" component="h1" gutterBottom className="font-bold text-gray-800">
+          Our Process
+        </Typography>
+        <Typography variant="h5" className="text-gray-700 space-y-6">
+          We source our produce directly from rural smallholder farmers of Nepal.
+        </Typography>
+
+      </CardContent>
+      {showNextButton && (
+        <div className="absolute bottom-8 z-10">
+          <Button variant="contained" color="primary" onClick={handleScrollClick} >
+            Our Partners
+          </Button>
+        </div>
+      )}
+    </Card>
+  );
+};
+
+interface PartnerCardProps {
+  logo: string;
+  description: string;
+}
+
+const PartnerCard: React.FC<PartnerCardProps> = ({ logo, description }) => (
+  <Card className="w-full max-w-md mx-auto">
+    <CardContent className="p-8">
+      <img
+        alt="Logo"
+        className="w-full h-48 object-contain object-center mb-4"
+        src={logo}
+      />
+      <p className="text-lg font-semibold text-blue-900 dark:text-gray-400 text-center">
+        {description}
+      </p>
+    </CardContent>
+  </Card>
+);
+
+const Partners = () => {
   const [showNextButton, setShowNextButton] = useState(false);
 
   useEffect(() => {
@@ -158,27 +221,69 @@ const Process = () => {
     }
   };
 
-  return (
-    <Card className="flex flex-col items-center justify-center min-h-screen px-4 md:px-20 relative" style={{ background: 'linear-gradient(to bottom, #fde2e4, #e2e2f1)' }}>
-      <CardContent className="text-center max-w-4xl">
-        <Typography variant="h3" component="h1" gutterBottom className="font-bold text-gray-800">
-          Our Process
-        </Typography>
-        <Typography variant="h5" className="text-gray-700 space-y-6">
-          We source our produce directly from rural smallholder farmers of Nepal.
-        </Typography>
+  const partners = [
+    { logo: '/eight_k.png', description: 'EightK Expedition' },
+    { logo: '/elite_exped.jpeg', description: 'Elite Expedition' },
+    { logo: '/seven_summit.png', description: 'Seven Summit Treks' },
+  ];
+  const extendedPartners = [...partners, ...partners, ...partners, ...partners];  // Duplicate the list
 
-      </CardContent>
+
+  return (
+    <Card className="flex flex-col items-center justify-center min-h-screen px-4 md:px-20 relative" style={{ background: 'linear-gradient(to top, white, black)' }}
+    >
+      <div className="max-w-4xl w-full text-center">
+        <Typography
+          variant="h3"
+          component="h2"
+          gutterBottom
+          className="font-bold text-white mb-4"
+        >
+          Our Partners
+        </Typography>
+        <Typography
+          variant="h5"
+          className="text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mx-auto dark:text-gray-400 mb-8"
+        >
+          Trusted by the best teams in the world. We help teams of all sizes.
+        </Typography>
+        <div className="overflow-hidden relative w-full">
+          <div className="whitespace-nowrap animate-scroll">
+            {extendedPartners.map((partner, index) => (
+              <div key={index} className="inline-block mx-4">
+                <PartnerCard logo={partner.logo} description={partner.description} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
       {showNextButton && (
         <div className="absolute bottom-8 z-10">
-          <Button variant="contained" color="primary" onClick={handleScrollClick} endIcon={<ExpandMoreIcon />}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleScrollClick}
+            endIcon={<ExpandMoreIcon />}
+            sx={{
+              backgroundColor: 'black',  // Sets the background color to black
+              color: 'white',            // Sets the text color to white
+              '&:hover': {
+                backgroundColor: 'gray'  // Optional: change background on hover to gray
+              }
+            }}
+          >
             See Products
           </Button>
+
         </div>
       )}
     </Card>
   );
 };
+
+
+
 
 
 
@@ -287,6 +392,9 @@ export default function Home() {
       </div>
       <div id="Process">
         <Process />
+      </div>
+      <div id="Partners">
+        <Partners />
       </div>
       <div id="Products">
         <Products />
