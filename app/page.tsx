@@ -1,4 +1,4 @@
-'use client'
+''use client'
 
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
@@ -108,7 +108,7 @@ const Story = () => {
       </h1>
       <div className="max-w-4xl text-center text-lg md:text-xl text-gray-700 space-y-6">
         <p className="font-semibold text-gray-800">
-          <span className="text-sky-600">The Laughing Sherpa</span> is a tribute to our deep affection for the Himalayas and our profound admiration for the pillars of Nepal's mountaineering community – the Sherpas.
+          <span className="text-sky-600">The Laughing Sherpa</span> is a tribute to our deep affection for the Himalayas and our profound admiration for the pillars of Nepal&apos;s mountaineering community – the Sherpas.
         </p>
         <p>
           In the face of challenging conditions, the Sherpas tirelessly safeguard the spirits of the Himalayas and help countless individuals realize their dreams of achieving the impossible.
@@ -215,7 +215,7 @@ const Products = () => (
           Featured Products
         </h2>
         <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-          These are our top-selling products. Don't miss out!
+          These are our top-selling products. Don&apos;t miss out!
         </p>
       </div>
 
@@ -293,4 +293,4 @@ export default function Home() {
       </div>
     </div>
   );
-}
+} '
